@@ -108,3 +108,8 @@ cmf_core:
 
 sonata_block:
     default_contexts: [cms]
+
+knp_paginator:
+    template:
+        pagination: AppBundle::pager.html.twig
+#        pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig

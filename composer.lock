@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "647cf80d50a45d3314a273e802456604",
+    "hash": "252c6cab40df43470cd5adb6b72567d3",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -5857,7 +5857,8 @@
         "blackboxcode/pando-account-ticket-bundle": 20,
         "blackboxcode/pando-employee-bundle": 20,
         "blackboxcode/pando-content-bundle": 20,
-        "knplabs/knp-paginator-bundle": 20
+        "knplabs/knp-paginator-bundle": 20,
+        "doctrine/doctrine-fixtures-bundle": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
