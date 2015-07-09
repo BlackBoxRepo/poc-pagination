@@ -1,43 +1,79 @@
 {# default Sliding pagination control implementation #}
 
-<script>
-    function setPageValue() {
-        
-    }
-</script>
 
 {% if pageCount > 1 %}
-                <form>
-                    {% if query.direction is defined %}
-                        <input type="hidden" name="{{ sortDirectionParameterName }}" value="{{ query.direction }}">
-                    {% endif %}
-                    {% if query.sort is defined %}
-                        <input type="hidden" name="{{ sortFieldParameterName }}" value="{{ query.sort }}">
-                    {% endif %}
-                    {% if query.limit is defined %}
-                        <input type="hidden" name="{{ sortFieldParameterName }}" value="{{ query.limit }}">
-                    {% endif %}
-                    <input type="hidden" name="{{ pageParameterName }}" value="{{ first }}">
-    <div class="pagination">
-        {% if first is defined and current != first %}
-                    <input type="submit" value="<<"/>
+    <form class="paginationForm">
+        {% if query.direction is defined %}
+            <input type="hidden" name="{{ sortDirectionParameterName }}" value="{{ query.direction }}">
         {% endif %}
-
-        {% if previous is defined %}
-                    <input type="submit" value="<"/>
+        {% if query.sort is defined %}
+            <input type="hidden" name="{{ sortFieldParameterName }}" value="{{ query.sort }}">
         {% endif %}
-
-        {% for page in pagesInRange %}
-                    <input type="submit" value="{{ page }}"/>
-        {% endfor %}
-
-        {% if next is defined %}
-                    <input type="submit" value=">"/>
+        {% if query.limit is defined %}
+            <select name="limit" id="limitSelect">
+                <option value="1" {% if query.limit == 1 %}selected{% endif %}>1</option>
+                <option value="2" {% if query.limit == 2 %}selected{% endif %}>2</option>
+            </select>
         {% endif %}
+        <input type="hidden" id="pageParameter" name="{{ pageParameterName }}" value="{{ first }}">
+        <div class="pagination">
+            {% if first is defined and current != first %}
+                <input type="submit" value="<<"/>
+            {% endif %}
 
-        {% if last is defined and current != last %}
-                    <input type="submit" value=">>"/>
-        {% endif %}
-    </div>
-                </form>
+            {% if previous is defined %}
+                <input type="submit" value="<"/>
+            {% endif %}
+
+            {% for page in pagesInRange %}
+                <input type="submit" value="{{ page }}"/>
+            {% endfor %}
+
+            {% if next is defined %}
+                <input type="submit" value=">"/>
+            {% endif %}
+
+            {% if last is defined and current != last %}
+                <input type="submit" value=">>"/>
+            {% endif %}
+        </div>
+    </form>
+    <script>
+        var forms = document.getElementsByClassName('paginationForm');
+        var form = forms[0];
+        console.log(form);
+        var select = document.getElementById('limitSelect');
+        select.onchange = function(ev) {
+            form.submit();
+        };
+        form.addEventListener('submit', function(ev)
+        {
+            var pageParameter = document.getElementById('pageParameter');
+            console.log(ev);
+            var button = ev.explicitOriginalTarget;
+            console.log(button);
+            switch (button.defaultValue) {
+                case "<<":
+                    console.log(button.defaultValue);
+                    pageParameter.defaultValue = {{ first|default(1) }};
+                    break;
+                case "<":
+                    console.log(button.defaultValue);
+                    pageParameter.defaultValue = {{ previous|default(1) }};
+                    break;
+                case ">>":
+                    console.log(button.defaultValue);
+                    pageParameter.defaultValue = {{ last|default(1) }};
+                    break;
+                case ">":
+                    console.log(button.defaultValue);
+                    pageParameter.defaultValue = {{ next|default(1) }};
+                    break;
+                default:
+                    console.log(button.defaultValue);
+                    pageParameter.defaultValue = button.defaultValue;
+            }
+        });
+
+    </script>
 {% endif %}
